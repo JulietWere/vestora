@@ -1,0 +1,83 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "juliet",
+      "password": "1234",
+      "name": "Juliet Were",
+      "token": "mock-token-123"
+    },
+    {
+      "id": "d9bf",
+      "username": "Pert  Kweyu",
+      "password": "1234",
+      "name": "rebeca awinja",
+      "token": "mock-token-4406"
+    },
+    {
+      "id": "61c1",
+      "username": "Pert  Kweyuw",
+      "password": "1234",
+      "name": "rebeca awinjam",
+      "token": "mock-token-3298"
+    },
+    {
+      "id": "469e",
+      "username": "Pert  Kweyun",
+      "password": "1234",
+      "name": "Juliet Weref",
+      "token": "mock-token-5687"
+    },
+    {
+      "id": "9270",
+      "username": {
+        "name": "sawwert",
+        "username": "qwer",
+        "password": "1234"
+      },
+      "token": "mock-token-4593"
+    }
+  ],
+  "portfolio": {
+    "value": 12345,
+    "investments": 8,
+    "returns": 2340
+  },
+  "transactions": [
+    {
+      "id": "1",
+      "date": "2026-01-10",
+      "type": "Deposit",
+      "amount": 500,
+      "status": "Completed"
+    },
+    {
+      "id": "2",
+      "date": "2026-01-12",
+      "type": "Investment",
+      "amount": 1200,
+      "status": "Pending"
+    },
+    {
+      "id": "3",
+      "date": "2026-01-15",
+      "type": "Withdrawal",
+      "amount": 300,
+      "status": "Failed"
+    },
+    {
+      "id": "2284",
+      "date": "2026-01-14",
+      "type": "Deposit",
+      "amount": 2300,
+      "status": "Completed"
+    },
+    {
+      "id": "69ef",
+      "date": "2026-01-15",
+      "type": "bank",
+      "amount": 2777,
+      "status": "Completed"
+    }
+  ]
+}

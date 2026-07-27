@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Live Investment Packages</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f4f6;
+      padding: 40px;
+      color: #111827;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 2rem;
+    }
+
+    .packages {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+    }
+
+    .package-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      border: 1px solid #ddd;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .package-card h2 {
+      margin: 10px 0;
+      font-size: 1.3rem;
+    }
+
+    .package-card p {
+      margin: 6px 0;
+    }
+
+    .image-placeholder {
+      height: 150px;
+      background: #e5e7eb;
+      border-radius: 8px;
+      margin: 12px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6b7280;
+      font-weight: bold;
+    }
+
+    .invest-btn {
+      margin-top: 12px;
+      padding: 10px 20px;
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .invest-btn:hover {
+      background-color: #1d4ed8;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Live Investment Packages</h1>
+  <div id="packages" class="packages"></div>
+
+  <script>
+    const packages = [
+      { name: 'Package 1', investment: 1200, daily: 75 },
+      { name: 'Package 2', investment: 2400, daily: 160 },
+      { name: 'Package 3', investment: 3900, daily: 288 },
+      { name: 'Package 4', investment: 6500, daily: 516 }
+    ];
+
+    const container = document.getElementById('packages');
+
+    function animateValue(element, end, duration = 1000) {
+      let start = parseInt(element.dataset.value) || 0;
+      const range = end - start;
+      let startTime = null;
+
+      function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        const progress = Math.min((timestamp - startTime) / duration, 1);
+        const value = Math.floor(start + range * progress);
+        element.innerText = `KES ${value.toLocaleString()}`;
+        element.dataset.value = value;
+        if (progress < 1) requestAnimationFrame(step);
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    packages.forEach(pkg => {
+      const card = document.createElement('div');
+      card.className = 'package-card';
+
+      const yearly = pkg.daily * 365;
+
+      card.innerHTML = `
+        <h2>${pkg.name}</h2>
+        <p>Daily Return: <span class="daily" data-value="0">0</span></p>
+        <p>Yearly Earnings: <span class="yearly" data-value="0">0</span></p>
+        <p>Investment: KES ${pkg.investment.toLocaleString()}</p>
+        <div class="image-placeholder">Image</div>
+        <button class="invest-btn">Invest</button>
+      `;
+
+      container.appendChild(card);
+
+      const dailyElement = card.querySelector('.daily');
+      const yearlyElement = card.querySelector('.yearly');
+      const investBtn = card.querySelector('.invest-btn');
+
+      // Initial animation
+      animateValue(dailyElement, pkg.daily, 1000);
+      animateValue(yearlyElement, yearly, 1500);
+
+      // Live fluctuations every 3 seconds
+      setInterval(() => {
+        const dailyFluct = Math.floor(Math.random() * 10 - 5); // -5 to +5
+        const newDaily = Math.max(0, pkg.daily + dailyFluct);
+        const newYearly = newDaily * 365;
+
+        animateValue(dailyElement, newDaily, 1000);
+        animateValue(yearlyElement, newYearly, 1000);
+      }, 3000);
+
+      // Invest button click
+      investBtn.addEventListener('click', () => {
+        alert(`You chose to invest in ${pkg.name} with KES ${pkg.investment.toLocaleString()}`);
+      });
+    });
+  </script>
+
+</body>
+</html>
