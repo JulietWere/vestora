@@ -2,7 +2,7 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 import Referral from "../models/Referral.js";
-import Transaction from "../models/Transaction.js";
+import Transaction from "../models/transaction.js";
 
 const router = express.Router();
 

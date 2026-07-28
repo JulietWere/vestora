@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import Investment from "../models/Investment.js";
 import User from "../models/User.js";
 import { distributeReferralBonus } from "../utils/referralBonus.js";
-import Transaction from "../models/Transaction.js";
+import Transaction from "../models/transaction.js";
 
 const router = express.Router();
 
