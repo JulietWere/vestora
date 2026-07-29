@@ -501,6 +501,7 @@ app.put("/api/admin/admin/:username", adminAuth, async (req, res) => {
 
 // ------------------ Deposit ------------------
 app.post("/api/transactions/deposit", async (req, res) => {
+  console.log("🔥 DEPOSIT ROUTE HIT");
   try {
     // ---------------- AUTH ----------------
     const authHeader = req.headers.authorization;
