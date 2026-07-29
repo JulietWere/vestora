@@ -1,7 +1,7 @@
 // src/components/adminApi.js
 import axios from "axios";
 
-const BASE_URL = "http://localhost:5000";
+const BASE_URL = "https://vestora-backend-xrhn.onrender.com";
 
 export async function adminApprove(transactionId, token) {
   try {

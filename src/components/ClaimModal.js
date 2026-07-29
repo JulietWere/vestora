@@ -100,10 +100,10 @@ export function ClaimModal(dashboard, table, activeInvestments, user) {
       claimBtn.addEventListener('click', async () => {
         if (!canClaim) return;
 
-        try {
-          const res = await axios.put(
-  `http://localhost:5000/api/investments/claim/${inv._id}`
-);
+         try {
+  const res = await axios.put(
+    `https://vestora-backend-xrhn.onrender.com/api/investments/claim/${inv._id}`
+  );
 
           alert(res.data.message || 'Claim successful');
 

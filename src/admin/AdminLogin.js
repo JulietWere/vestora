@@ -61,12 +61,12 @@ export function AdminLogin() {
 
     if (!username || !password) return showToast('Enter username and password!');
 
-    try {
-      // Call backend login endpoint
-      const res = await axios.post('http://localhost:5000/api/admin/login', {
-        username,
-        password
-      });
+       try {
+  // Call backend login endpoint
+  const res = await axios.post('https://vestora-backend-xrhn.onrender.com/api/admin/login', {
+    username,
+    password
+  });
 
       const { token, admin } = res.data;
 

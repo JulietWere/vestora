@@ -144,15 +144,16 @@ export async function renderTeam(container, user) {
   membersDiv.innerHTML = `<h3 class="font-bold mb-2">Your Team</h3><p>Loading...</p>`;
   container.appendChild(membersDiv);
 
-  async function loadTeam() {
+  
+ async function loadTeam() {
   try {
     // STEP 1: get referrer user by referralCode
     const refRes = await fetch(
-      `http://localhost:5000/api/users?refCode=${referralCode}`
+      `https://vestora-backend-xrhn.onrender.com/api/users?refCode=${referralCode}`
     );
     const refData = await refRes.json();
 
-    const referrer = refData.find(u => u.referralCode === referralCode);
+    const referrer = refData.find(u => u.referralCode === referralCode);referrer = refData.find(u => u.referralCode === referralCode);
 
     if (!referrer) {
       membersDiv.innerHTML = "<p>No referrer found</p>";
@@ -161,9 +162,8 @@ export async function renderTeam(container, user) {
 
     // STEP 2: now use real user ID
     const res = await fetch(
-      `http://localhost:5000/api/users?referredBy=${referrer._id}`
-    );
-
+  `https://vestora-backend-xrhn.onrender.com/api/users?referredBy=${referrer._id}`
+);
     const data = await res.json();
 
     membersDiv.innerHTML = `<h3 class="font-bold mb-2">Your Team</h3>`;

@@ -20,8 +20,7 @@ async function loadHistory() {
 }
 
 export function DepositModal({ onSuccess }) {
-  const socket = io("http://localhost:5000");
-
+  const socket = io("https://vestora-backend-xrhn.onrender.com");
   // --- Overlay and modal setup ---
   const overlay = document.createElement("div");
   overlay.className = "fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-2 overflow-auto";
@@ -161,11 +160,14 @@ export function DepositModal({ onSuccess }) {
     submitBtn.disabled = true;
 
     try {
-      const res = await fetch("http://localhost:5000/api/transactions/deposit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
-        body: JSON.stringify({ amount: value, mpesaMessage: sms })
-      });
+  const res = await fetch("https://vestora-backend-xrhn.onrender.com/api/transactions/deposit", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    },
+    body: JSON.stringify({ amount: value, mpesaMessage: sms })
+  });
       const data = await res.json();
       if (!res.ok) return showToast(data.message || "Failed to submit deposit");
 

@@ -4,7 +4,7 @@ import { io } from "socket.io-client";
 import { adminApprove, adminReject } from "../admin/adminApi.js";
 
 export async function AdminDashboard({ token, admin }) {
-  const socket = io("http://localhost:5000");
+    const socket = io("https://vestora-backend-xrhn.onrender.com");
 
   const container = document.createElement("div");
   container.className = "w-full min-h-screen flex flex-col gap-4 p-4";
@@ -77,25 +77,25 @@ async function fetchDashboardData() {
     }
   };
 
-  try {
-    const resUsers = await axios.get(
-      "http://localhost:5000/api/users",
-      config
-    );
-    users = resUsers.data;
-  } catch (err) {
-    console.error("Users fetch failed:", err.response?.data || err.message);
-  }
+    try {
+  const resUsers = await axios.get(
+    "https://vestora-backend-xrhn.onrender.com/api/users",
+    config
+  );
+  users = resUsers.data;
+} catch (err) {
+  console.error("Users fetch failed:", err.response?.data || err.message);
+}
 
-  try {
-    const resTx = await axios.get(
-      "http://localhost:5000/api/transactions",
-      config
-    );
-    recentTransactions = resTx.data;
-  } catch (err) {
-    console.error("Transactions fetch failed:", err.response?.data || err.message);
-  }
+   try {
+  const resTx = await axios.get(
+    "https://vestora-backend-xrhn.onrender.com/api/transactions",
+    config
+  );
+  recentTransactions = resTx.data;
+} catch (err) {
+  console.error("Transactions fetch failed:", err.response?.data || err.message);
+}
 
   return { users, recentTransactions };
 }
@@ -192,14 +192,14 @@ async function fetchDashboardData() {
       blockBtn.onclick = async () => {
         if (!confirm("Confirm action?")) return;
 
-        try {
-          setButtonProcessing(true, blockBtn);
+       try {
+  setButtonProcessing(true, blockBtn);
 
-          await axios.put(
-            `http://localhost:5000/api/admin/block/${user.username}`,
-            {},
-            { headers: { Authorization: `Bearer ${token}` } }
-          );
+  await axios.put(
+    `https://vestora-backend-xrhn.onrender.com/api/admin/block/${user.username}`,
+    {},
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
 
           showToast("User updated");
           renderUsers();
@@ -222,14 +222,13 @@ async function fetchDashboardData() {
 if (!confirmed) return;
 
   try {
-    setButtonProcessing(true, adminBtn);
+  setButtonProcessing(true, adminBtn);
 
-    await axios.put(
-      `http://localhost:5000/api/admin/admin/${user.username}`,
-      {},
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-
+  await axios.put(
+    `https://vestora-backend-xrhn.onrender.com/api/admin/admin/${user.username}`,
+    {},
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
     showToast("Admin status updated");
     renderUsers();
   } catch {

@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const BASE_URL = "http://localhost:5000";
+const BASE_URL = "https://vestora-backend-xrhn.onrender.com";
 
 // ----------------- REGISTER -----------------
 export async function registerUser(username, password, referralCode = null, referralLink = false) {
@@ -171,11 +171,11 @@ export async function withdraw(data) {
   const token = localStorage.getItem("token");
 
   if (!token) throw new Error("No user logged in");
+return axios.post(
+  "https://vestora-backend-xrhn.onrender.com/api/transactions/withdraw",
+  data,
+  {
 
-  return axios.post(
-    "http://localhost:5000/api/transactions/withdraw",
-    data,
-    {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -228,10 +228,11 @@ export async function createInvestment(data) {
     throw new Error("No user logged in");
   }
 
-  try {
-    const res = await axios.post(
-      "http://localhost:5000/api/investments",
-      {
+   try {
+  const res = await axios.post(
+    "https://vestora-backend-xrhn.onrender.com/api/investments",
+    {
+
         packageId: data.packageId
       },
       {
@@ -291,10 +292,9 @@ export async function claimInvestment(investmentId) {
     console.error("❌ Invalid ID sent:", investmentId);
     throw new Error("Invalid investment ID");
   }
-
   const res = await axios.put(
-    `http://localhost:5000/api/investments/claim/${investmentId}`,
-    {},
+  `https://vestora-backend-xrhn.onrender.com/api/investments/claim/${investmentId}`,
+  {},
     {
       headers: {
         Authorization: `Bearer ${token}`
