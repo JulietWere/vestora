@@ -544,13 +544,6 @@ console.log("REQ.BODY:", req.body);
 console.log("AMOUNT:", req.body.amount);
 console.log("TYPE OF AMOUNT:", typeof req.body.amount);
 
-const { amount } = req.body;
-
-if (!amount || amount <= 0) {
-  return res.status(400).json({
-    message: "Invalid deposit amount"
-  });
-}
     const { amount } = req.body;
 
     if (!amount || amount <= 0) {
