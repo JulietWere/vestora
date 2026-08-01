@@ -29,6 +29,7 @@ import { getTeam } from "./utils/getReferralLevels.js";
  import adminRoutes from "./routes/adminRoutes.js";
  import referralStatsRoutes from "./routes/referralStatsRoutes.js";
  import mpesaRoutes from "./routes/mpesaRoutes.js";
+ import teamRoutes from "./routes/team.js";
  
 
 
@@ -56,6 +57,7 @@ app.use("/api/investments", investmentRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/referrals", referralStatsRoutes);
 app.use("/api/mpesa", mpesaRoutes);
+app.use("/api/team", teamRoutes);
 
 
 
