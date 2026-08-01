@@ -1296,18 +1296,22 @@ copyBtn.addEventListener("click", async () => {
   try {
     console.log("USER ID:", user._id);
     console.log("REFERRAL CODE:", user.referralCode);
-  const res = await fetch("/api/team", {
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem("token")}`
+    const token = localStorage.getItem("token");
+const user = JSON.parse(localStorage.getItem("user"));
+
+const res = await fetch(
+  `https://vestora-backend-xrhn.onrender.com/api/team?userId=${user._id}`,
+  {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
   }
-});
+);
     if (!res.ok) {
       throw new Error(`HTTP error ${res.status}`);
     }
 
-      const data = await res.json();
-      const members = data.members || [];
-
+       const members = await res.json();
     console.log("TEAM RESPONSE:", members);
     console.log("TEAM API RESPONSE:", data);
 
