@@ -1292,21 +1292,22 @@ copyBtn.addEventListener("click", async () => {
   }
 });
 
- async function loadTeam() {
+     async function loadTeam() {
   try {
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user"));
+
     console.log("USER ID:", user._id);
     console.log("REFERRAL CODE:", user.referralCode);
-    const token = localStorage.getItem("token");
-const user = JSON.parse(localStorage.getItem("user"));
 
-const res = await fetch(
-  `https://vestora-backend-xrhn.onrender.com/api/team?userId=${user._id}`,
-  {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  }
-);
+    const res = await fetch(
+      `https://vestora-backend-xrhn.onrender.com/api/team?userId=${user._id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
     if (!res.ok) {
       throw new Error(`HTTP error ${res.status}`);
     }
