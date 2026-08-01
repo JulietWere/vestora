@@ -206,23 +206,33 @@ export async function fetchTeam() {
     return [];
   }
 
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (!user?._id) {
+    console.error("No user ID found");
+    return [];
+  }
+
   try {
     const res = await axios.get(`${BASE_URL}/api/team`, {
       headers: {
         Authorization: `Bearer ${token}`
+      },
+      params: {
+        userId: user._id
       }
     });
 
     console.log("TEAM RESPONSE:", res.data);
 
-    return res.data.members || [];
+    // Your backend returns an array directly
+    return Array.isArray(res.data) ? res.data : [];
 
   } catch (err) {
     console.error("Fetch team failed:", err.response?.data || err.message);
     return [];
   }
 }
-
 // ----------------- FETCH INVESTMENTS -----------------
 export async function createInvestment(data) {
   const token = localStorage.getItem("token");
