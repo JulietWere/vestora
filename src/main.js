@@ -1313,7 +1313,7 @@ const res = await fetch(
 
        const members = await res.json();
     console.log("TEAM RESPONSE:", members);
-    console.log("TEAM API RESPONSE:", data);
+
 
     membersList.innerHTML = '';
 
