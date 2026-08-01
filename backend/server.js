@@ -17,6 +17,7 @@ import { nanoid } from "nanoid";
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
 import User from "./models/User.js";
+import adminAuth from "./middleware/adminAuth.js";
 import Transaction from "./models/transaction.js";
 import Referral from "./models/Referral.js";
 import Investment from "./models/Investment.js";
@@ -99,52 +100,60 @@ app.get("/debug-user/:id", async (req, res) => {
 
 
 // ------------------ Admin Data ------------------
-const admins = [
-  { username: "admin", password: "200720", token: "ADMIN123TOKEN" }
-];
+
 
 // ------------------ Admin Auth Middleware ------------------
-async function adminAuth(req, res, next) {
+
+ // ------------------ Admin Login ------------------
+app.post("/api/admin/login", async (req, res) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1];
+    const { username, password } = req.body;
 
-    if (!token) {
-      return res.status(401).json({ message: "Admin token required" });
+    if (!username || !password) {
+      return res.status(400).json({ message: "Username and password required" });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const admin = await User.findOne({ username });
 
-    const user = await User.findById(decoded._id);
-
-    if (!user) {
-      return res.status(401).json({ message: "User not found" });
+    if (!admin) {
+      return res.status(401).json({ message: "Invalid admin credentials" });
     }
 
-    if (!user.isAdmin) {
+    if (!admin.isAdmin) {
       return res.status(403).json({ message: "Admin access required" });
     }
 
-    req.user = user;
-    next();
+  
+     if (admin.password !== password) {
+  return res.status(401).json({ message: "Invalid admin credentials" });
+}
+
+    const token = jwt.sign(
+      {
+        _id: admin._id,
+        username: admin.username
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
+
+    res.json({
+      message: "Admin login successful",
+      token,
+      admin: {
+        username: admin.username
+      }
+    });
 
   } catch (err) {
-    console.error("ADMIN AUTH ERROR:", err);
-    return res.status(401).json({ message: "Invalid token" });
+    console.error("ADMIN LOGIN ERROR:", err);
+    res.status(500).json({ message: "Server error" });
   }
-}
-// ------------------ Admin Login ------------------
-app.post("/api/admin/login", (req, res) => {
-  const { username, password } = req.body;
-  if (!username || !password) return res.status(400).json({ message: "Username and password required" });
-
-  const admin = admins.find(a => a.username === username);
-  if (!admin || admin.password !== password) return res.status(401).json({ message: "Invalid admin credentials" });
-
-  res.json({ message: "Admin login successful", token: admin.token, admin: { username: admin.username } });
 });
 
 
-app.get("/api/admin/transactions", async (req, res) => {
+
+  app.get("/api/admin/transactions", adminAuth, async (req, res) => {
   try {
 
     const transactions = await Transaction.find()
@@ -350,7 +359,9 @@ let totalEarned = 0;
 
     console.log("📦 INVESTMENTS:", updatedInvestments.length);
     console.log("💰 TOTAL EARNED (CALCULATED):", totalEarned);
-
+    
+    console.log("💰 user.balance:", user.balance);
+console.log("🎁 user.bonus:", user.bonus);
     res.json({
       balance: user.balance,
       investments: updatedInvestments,
@@ -493,6 +504,36 @@ app.put("/api/admin/admin/:username", adminAuth, async (req, res) => {
 
     io.emit("userUpdated", user);
     res.json({ message: `User ${user.isAdmin ? "granted" : "revoked"} admin`, user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+ app.get("/api/admin/stats", adminAuth, async (req, res) => {
+  try {
+    const totalUsers = await User.countDocuments();
+
+    const totalBalance = await User.aggregate([
+      {
+        $group: {
+          _id: null,
+          total: { $sum: "$balance" }
+        }
+      }
+    ]);
+
+    const blockedUsers = await User.countDocuments({ isBlocked: true });
+
+    const admins = await User.countDocuments({ isAdmin: true });
+
+    res.json({
+      totalUsers,
+      totalBalance: totalBalance[0]?.total || 0,
+      blockedUsers,
+      admins
+    });
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });

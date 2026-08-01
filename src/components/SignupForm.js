@@ -137,8 +137,8 @@ export function SignupForm() {
 
         // ---------- REDIRECT TO LOGIN AFTER 3 SECONDS ----------
         setTimeout(() => {
-          window.location.href = '/login'; // Change to your login page route
-        }, 3000);
+  window.location.href = '/';
+}, 3000);
       } else if (data?.error) {
         // Show backend error clearly
         if (data.error.includes('Referral')) referralError.innerText = data.error;

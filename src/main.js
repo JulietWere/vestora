@@ -28,8 +28,9 @@ import { io } from "socket.io-client";
 const timers = {};
 // ---------------------------
 
+
 // 1️⃣ Connect to backend socket
-window.socket = io("http://localhost:5000");
+window.socket = io("https://vestora-backend-xrhn.onrender.com");
 
 
 
@@ -376,29 +377,7 @@ window.socket.on("transactionUpdated", (data) => {
   // ============================
 
   // Deposit Attempt (Pending)
-  window.socket.on("depositAttempt", (deposit) => {
-    if (!window.currentUser?._id) return;
-    if (String(deposit.user) === String(window.currentUser._id)) {
-      const depositTime = deposit.date ? new Date(deposit.date).toLocaleString() : new Date().toLocaleString();
-      alert(
-        `💰 M-Pesa Deposit Attempt\n` +
-        `User: ${window.currentUser.username}\n` +
-        `Amount: KES ${Number(deposit.amount || 0).toLocaleString()}\n` +
-        `Status: ${deposit.status || 'Pending Approval'}\n` +
-        `Time: ${depositTime}`
-      );
 
-      transactions.push({
-        date: deposit.date || new Date(),
-        type: 'Deposit',
-        amount: deposit.amount || 0,
-        status: deposit.status || 'Pending Approval'
-      });
-
-      if (typeof updateTransactionsTable === 'function') updateTransactionsTable();
-      if (typeof updateDashboard === 'function') updateDashboard();
-    }
-  });
 
   // Deposit Approved
   window.socket.on("depositApproved", (deposit) => {
@@ -570,7 +549,7 @@ const referralCode = window.currentUser?.referralCode;
 const teamMembers = await fetchTeam(referralCode);
 
 // display the logged-in user's referral bonus
-const referralEl = document.getElementById("bonus");
+const referralEl = document.getElementById("referralValue");
 if (referralEl) {
   referralEl.innerText = `KES ${(Number(portfolio.bonus) || 0).toLocaleString()}`;
 }

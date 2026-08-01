@@ -85,16 +85,19 @@ export async function fetchPortfolio() {
     // 🔥 NORMALIZE RESPONSE HERE
     const data = res.data || {};
 
-    return {
-      balance: Number(data.balance) || 0,
-      investments: Array.isArray(data.investments)
-        ? data.investments.map(inv => ({
-            ...inv,
-            amount: Number(inv.amount) || 0,
-            lastClaimDate: inv.lastClaimDate || new Date().toISOString()
-          }))
-        : []
-    };
+   return {
+  balance: Number(data.balance) || 0,
+  bonus: Number(data.bonus) || 0,
+  totalEarned: Number(data.totalEarned) || 0,
+  investments: Array.isArray(data.investments)
+    ? data.investments.map(inv => ({
+        ...inv,
+        amount: Number(inv.amount) || 0,
+        lastClaimDate: inv.lastClaimDate || new Date().toISOString()
+      }))
+    : []
+};
+
 
   } catch (err) {
     console.error("Fetch portfolio failed:", err.response?.data || err.message);
