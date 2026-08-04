@@ -173,14 +173,10 @@ export async function renderTeam(container, user) {
       return;
     }
 
-    const ul = document.createElement("ul");
-
-    data.forEach((u) => {
-      const li = document.createElement("li");
-      li.innerText = `${u.username} - KES ${u.balance}`;
-      ul.appendChild(li);
-    });
-
+     const li = document.createElement("li");
+li.className = "text-black dark:text-black py-1";
+li.innerText = `${u.username} - KES ${u.balance}`;
+ul.appendChild(li);
     membersDiv.appendChild(ul);
 
   } catch (err) {
