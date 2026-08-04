@@ -1222,7 +1222,7 @@ teamContainer.className =
   'flex flex-col gap-4 p-4 bg-yellow-50 dark:bg-gray-100 rounded shadow w-full max-w-3xl mx-auto';
 
 
-const referralLink = `https://vestora.com/signup?ref=${user.referralCode || ''}`;
+const referralLink = `${window.location.origin}/signup?ref=${user.referralCode || ''}`;
 
 teamContainer.innerHTML = `
   <div class="flex flex-col gap-3">
